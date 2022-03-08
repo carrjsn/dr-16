@@ -12,14 +12,19 @@ class App extends React.Component {
     this.snare = new Audio(snare);
     this.hiHat = new Audio(hiHat);
 
-    this.state = {};
+    this.state = {
+      // drum grid update tracking..
+    };
 
     this.playDrum = this.playDrum.bind(this);
   }
 
   playDrum(drum) {
-    console.log('drum', drum);
-    this[drum].play();
+    console.log('drum', drum)
+    let audioClone = this[drum].cloneNode(true);
+    // console.log(strike);
+    audioClone.play();
+    // this[drum].play();
   }
 
   render() {
