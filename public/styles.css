@@ -1,0 +1,39 @@
+body {
+  background-color: #333;
+  color: white;
+}
+
+#main {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+h2 {
+  margin-left: 10vw;
+}
+
+.row {
+  display: flex;
+}
+
+.drum-name {
+  width: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  margin-right: 1.25em;
+}
+
+.square {
+  border: 1px solid white;
+  height: 2.5em;
+  width: 2.5em;
+  margin-right: 1em;
+}
+
+.square-row {
+  display: flex;
+  align-items: center;
+  width: 90%;
+}
