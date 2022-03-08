@@ -55,8 +55,16 @@ button:hover {
   cursor: pointer;
 }
 
-.active {
-  background-color: #999;
+.hi-hat .active {
+  background-color: rgb(133, 208, 221);
+}
+
+.snare .active {
+  background-color: rgb(221, 133, 133);
+}
+
+.kick .active {
+  background-color: rgb(143, 221, 133);
 }
 
 .square-row {
