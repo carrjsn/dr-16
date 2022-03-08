@@ -1,76 +1,48 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import SquareRow from './Components/SquareRow.jsx';
+import kick from './audio/Kick.mp3';
+import snare from './audio/Snare.mp3';
+import hiHat from './audio/Hi-Hat-Closed.mp3';
 
-const App = () => {
-  return (
-    <div id='main'>
-      <h2>DR-16</h2>
-      <div className='hi-hat row'>
-        <span className="drum-name">Hi Hat</span>
-        <div className="square-row">
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-        </div>
-      </div>
-      <div className='snare row'>
-        <span className="drum-name">Snare</span>
-        <div className='square-row'>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-        </div>
-      </div>
-      <div className='kick row'>
-        <span className="drum-name">Kick</span>
-        <div className='square-row'>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-          <div className='square'></div>
-        </div>
-      </div>
+class App extends React.Component {
+  constructor() {
+    super();
+    this.kick = new Audio(kick);
+    this.snare = new Audio(snare);
+    this.hiHat = new Audio(hiHat);
 
-    </div>
-  );
+    this.state = {};
+
+    this.playDrum = this.playDrum.bind(this);
+  }
+
+  playDrum(drum) {
+    console.log('drum', drum);
+    this[drum].play();
+  }
+
+  render() {
+    return (
+      <div id='main'>
+        <h2>DR-16</h2>
+        <div className='hi-hat row'>
+          <span className="drum-name">Hi Hat</span>
+          <SquareRow drum={'hiHat'} play={this.playDrum}/>
+        </div>
+        <div className='snare row'>
+          <span className="drum-name">Snare</span>
+          <SquareRow drum={'snare'} play={this.playDrum}/>
+        </div>
+        <div className='kick row'>
+          <span className="drum-name">Kick</span>
+          <SquareRow drum={'kick'} play={this.playDrum}/>
+        </div>
+
+      </div>
+    );
+  }
+
 };
 
 ReactDOM.render(<App />, document.getElementById('app'));
