@@ -55,6 +55,10 @@ button:hover {
   cursor: pointer;
 }
 
+.active {
+  background-color: #999;
+}
+
 .square-row {
   display: flex;
   align-items: center;

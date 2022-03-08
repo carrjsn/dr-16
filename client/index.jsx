@@ -20,12 +20,14 @@ class App extends React.Component {
   }
 
   playDrum(drum) {
-    console.log('drum', drum)
+    // make clone of original audio node to allow for overlapping plays
     let audioClone = this[drum].cloneNode(true);
-    // console.log(strike);
     audioClone.play();
-    // this[drum].play();
   }
+
+  // startSequence() {
+
+  // }
 
   render() {
     return (
