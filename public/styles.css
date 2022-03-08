@@ -16,6 +16,23 @@ body {
 
 h2 {
   margin-left: 10vw;
+  margin-bottom: 0;
+}
+
+.button-container {
+  margin-left: 10vw;
+  margin-bottom: 1em;
+}
+
+button {
+  margin-right: 1em;
+  cursor: pointer;
+  border: none;
+  padding: .6em 1em;
+}
+
+button:hover {
+  background: #BBB;
 }
 
 .row {

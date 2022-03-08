@@ -31,6 +31,10 @@ class App extends React.Component {
     return (
       <div id='main'>
         <h2>DR-16</h2>
+        <div className='button-container'>
+          <button id='play'>Play</button>
+          <button id='pause'>Pause</button>
+        </div>
         <div className='hi-hat row'>
           <span className="drum-name">Hi Hat</span>
           <SquareRow drum={'hiHat'} play={this.playDrum}/>
