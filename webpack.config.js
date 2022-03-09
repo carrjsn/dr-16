@@ -5,6 +5,13 @@ module.exports = {
     path: __dirname + '/public',
     filename: 'bundle.js'
   },
+  resolve: {
+		root: __dirname,
+                // for webpack 1:
+		modulesDirectories : ["path/to/Tone.js/"],
+                // for webpack 2:
+                modules : ["path/to/Tone.js/"]
+	},
   module: {
     rules: [
       {

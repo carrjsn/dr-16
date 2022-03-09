@@ -4,6 +4,7 @@ import SquareRow from './Components/SquareRow.jsx';
 import kick from './audio/Kick.mp3';
 import snare from './audio/Snare.mp3';
 import hiHat from './audio/Hi-Hat-Closed.mp3';
+import * as Tone from 'tone';
 
 class App extends React.Component {
   constructor() {
@@ -17,7 +18,7 @@ class App extends React.Component {
       // drum grid update tracking..
       beat: 0,
       grid: [],
-      playing: false
+      isPlaying: false
     };
 
     this.playDrum = this.playDrum.bind(this);
@@ -76,15 +77,37 @@ class App extends React.Component {
   }
 
   startSequence() {
-    if (!this.state.playing) {
-      this.setState({playing: true});
+    if (!this.state.isPlaying) {
+      this.setState({isPlaying: true});
     }
+    const synthA = new Tone.FMSynth().toDestination();
+    const loop = new Tone.Loop(time => {
+      this.setState((prev) => {
+        let newBeat = prev.beat + 1;
+        if (prev.beat === 16) {
+          newBeat = 0;
+        }
+        return {
+          beat: newBeat
+        }
+      }, console.log(this.state));
+      }, "8n").start(0);
+
+    Tone.start()
+      .then(() => {
+        Tone.Transport.start();
+      })
+      .catch((err) => {
+        console.log('error', err)
+      })
   }
 
   stopSequence() {
-    if(this.state.playing) {
-      this.setState({playing: false});
+    if(this.state.isPlaying) {
+      this.setState({isPlaying: false});
     }
+
+    Tone.Transport.stop();
   }
 
   render() {
@@ -102,15 +125,38 @@ class App extends React.Component {
 
         <div className='hi-hat row'>
           <span className="drum-name">Hi Hat</span>
-          <SquareRow drum={'hiHat'} play={this.playDrum} pads={hiHatRow} row={0} changeStatus={this.changeActiveStatus}/>
+          <SquareRow
+            beat={this.state.beat}
+            drum={'hiHat'}
+            play={this.playDrum}
+            pads={hiHatRow}
+            row={0}
+            isPlaying={this.state.isPlaying}
+            changeStatus={this.changeActiveStatus}/>
         </div>
+
         <div className='snare row'>
           <span className="drum-name">Snare</span>
-          <SquareRow drum={'snare'} play={this.playDrum} pads={snareRow} row={1} changeStatus={this.changeActiveStatus}/>
+          <SquareRow
+            beat={this.state.beat}
+            drum={'snare'}
+            play={this.playDrum}
+            pads={snareRow}
+            row={1}
+            isPlaying={this.state.isPlaying}
+            changeStatus={this.changeActiveStatus}/>
         </div>
+
         <div className='kick row'>
           <span className="drum-name">Kick</span>
-          <SquareRow drum={'kick'} play={this.playDrum} pads={kickRow} row={2} changeStatus={this.changeActiveStatus}/>
+          <SquareRow
+            beat={this.state.beat}
+            drum={'kick'}
+            play={this.playDrum}
+            pads={kickRow}
+            row={2}
+            isPlaying={this.state.isPlaying}
+            changeStatus={this.changeActiveStatus}/>
         </div>
 
       </div>

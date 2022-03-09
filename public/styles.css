@@ -67,6 +67,10 @@ button:hover {
   background-color: rgb(143, 221, 133);
 }
 
+.curr-beat-played {
+  border: 1px solid #222;
+}
+
 .square-row {
   display: flex;
   align-items: center;
