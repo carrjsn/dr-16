@@ -16,16 +16,28 @@ class App extends React.Component {
     this.state = {
       // drum grid update tracking..
       beat: 0,
-      grid: []
+      grid: [],
+      playing: false
     };
 
     this.playDrum = this.playDrum.bind(this);
     this.makeGrid = this.makeGrid.bind(this);
+    this.startSequence = this.startSequence.bind(this);
+    this.stopSequence = this.stopSequence.bind(this);
     this.changeActiveStatus = this.changeActiveStatus.bind(this);
   }
 
   componentDidMount() {
     this.makeGrid();
+  }
+
+  componentDidUpdate() {
+    // start play loop
+    if (this.state.playing) {
+      console.log('looping')
+    } else {
+      console.log('paused')
+    }
   }
 
   playDrum(drum) {
@@ -63,9 +75,17 @@ class App extends React.Component {
     this.setState({ grid: rows }, () => console.log(this.state));
   }
 
-  // startSequence() {
+  startSequence() {
+    if (!this.state.playing) {
+      this.setState({playing: true});
+    }
+  }
 
-  // }
+  stopSequence() {
+    if(this.state.playing) {
+      this.setState({playing: false});
+    }
+  }
 
   render() {
     let hiHatRow = this.state.grid[0];
@@ -76,8 +96,8 @@ class App extends React.Component {
       <div id='main'>
         <h2>DR-16</h2>
         <div className='button-container'>
-          <button id='play'>Play</button>
-          <button id='pause'>Pause</button>
+          <button id='play' onClick={this.startSequence} >Play</button>
+          <button id='pause' onClick={this.stopSequence} >Pause</button>
         </div>
 
         <div className='hi-hat row'>
