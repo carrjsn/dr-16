@@ -48,9 +48,7 @@ class App extends React.Component {
   }
 
   changeActiveStatus(pad, drum) {
-    // play the square/pad
     this.playDrum(drum);
-    // change status
     this.setState((prev) => {
       let copy = prev.grid;
       copy[pad.row][pad.beat].isActive = !copy[pad.row][pad.beat].isActive;
@@ -80,7 +78,7 @@ class App extends React.Component {
     if (!this.state.isPlaying) {
       this.setState({isPlaying: true});
     }
-    const synthA = new Tone.FMSynth().toDestination();
+    // const synthA = new Tone.FMSynth().toDestination();
     const loop = new Tone.Loop(time => {
       this.setState((prev) => {
         let newBeat = prev.beat + 1;
