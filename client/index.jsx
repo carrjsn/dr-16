@@ -34,7 +34,7 @@ class App extends React.Component {
 
   componentDidUpdate() {
     // start play loop
-    if (this.state.playing) {
+    if (this.state.isPlaying) {
       console.log('looping')
     } else {
       console.log('paused')
@@ -80,6 +80,9 @@ class App extends React.Component {
     }
     // const synthA = new Tone.FMSynth().toDestination();
     const loop = new Tone.Loop(time => {
+      // setState is what's killing this
+      // find a way to make loop, check isActive on dom elements and "schedule" plays for each step
+
       this.setState((prev) => {
         let newBeat = prev.beat + 1;
         if (prev.beat === 16) {
@@ -120,6 +123,8 @@ class App extends React.Component {
           <button id='play' onClick={this.startSequence} >Play</button>
           <button id='pause' onClick={this.stopSequence} >Pause</button>
         </div>
+
+        {// just create the loop here in main app component, and check DOM nodes for active or not//
 
         <div className='hi-hat row'>
           <span className="drum-name">Hi Hat</span>
