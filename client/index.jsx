@@ -80,6 +80,8 @@ class App extends React.Component {
       this.setState({isPlaying: true});
     }
 
+    // assign uploaded mp3 audio files to Tone.js 'note value keys' so they can be referenced and triggered later
+    // a tone.js 'note' key must be a keyboard note 'g1', 'd3', 'a2', etc... regardless of the actual audio value
     const tones = new Tone.Sampler({
       'A1': hiHat,
       'B1': snare,
@@ -92,21 +94,23 @@ class App extends React.Component {
       2: 'C1'
     }
 
-    const rows = document.getElementsByClassName('row');
-
-    let idx = 0;
-
+    // scheduleRepeat returns a unique event Id - store in state and use to "clear() the event" on stop click
     let eventId = Tone.Transport.scheduleRepeat(repeat, '8n');
-    console.log(eventId);
     this.setState({currEvent: eventId});
+
+    Tone.Transport.bpm.value = 135;
+
+    // Start loop
     Tone.start()
-      .then(() => {
-        Tone.Transport.start();
-      })
-      .catch((err) => {
-        console.log('error', err)
-      })
-    // Tone.Transport.start();
+    .then(() => {
+      Tone.Transport.start();
+    })
+    .catch((err) => {
+      console.log('error', err)
+    })
+
+    const rows = document.getElementsByClassName('row');
+    let idx = 0;
 
     function repeat(time) {
       // current step
@@ -115,47 +119,16 @@ class App extends React.Component {
       for (let i = 0; i < rows.length; i++) {
         let note = noteMap[i];
         let row = rows[i];
-        console.log('row', row);
         let square = row.querySelector(`.square:nth-child(${step + 1})`);
-        console.log('square', square);
         // if node is Active
         if (square.classList.contains('active')) {
           // trigger attack
           tones.triggerAttackRelease(note, '8n', time)
         }
-
       }
       // increment global index
       idx++;
     }
-
-
-
-    // old -----------------------------------------
-    // const synthA = new Tone.FMSynth().toDestination();
-    // const loop = new Tone.Loop(time => {
-    //   // setState is what's killing this
-    //   // find a way to make loop, check isActive on dom elements and "schedule" plays for each step
-
-      // this.setState((prev) => {
-      //   let newBeat = prev.beat + 1;
-      //   if (prev.beat === 16) {
-      //     newBeat = 0;
-      //   }
-      //   return {
-      //     beat: newBeat
-      //   }
-      // }, console.log(this.state));
-      // }, "8n").start(0);
-      // -------------------------------------------------
-
-    // Tone.start()
-    //   .then(() => {
-    //     Tone.Transport.start();
-    //   })
-    //   .catch((err) => {
-    //     console.log('error', err)
-    //   })
   }
 
   stopSequence() {
@@ -165,8 +138,6 @@ class App extends React.Component {
     Tone.Transport.clear(this.state.currEvent);
     Tone.Transport.stop();
   }
-
-  // just create the loop here in main app component, and check DOM nodes for active or not//
 
   render() {
     let hiHatRow = this.state.grid[0];
