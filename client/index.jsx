@@ -15,7 +15,7 @@ class App extends React.Component {
     this.hiHat = new Audio(hiHat);
 
     this.state = {
-      // drum grid update tracking..
+      // todo: remove beat, nested components won't need it - remove from props as well
       beat: 0,
       grid: [],
       isPlaying: false,
@@ -43,6 +43,8 @@ class App extends React.Component {
   }
 
   playDrum(drum) {
+    // todo: if loop is currently playing - don't playDrum?
+
     // make clone of original audio node to allow for overlapping plays
     let audioClone = this[drum].cloneNode(true);
     audioClone.play();
@@ -98,7 +100,7 @@ class App extends React.Component {
     let eventId = Tone.Transport.scheduleRepeat(repeat, '8n');
     this.setState({currEvent: eventId});
 
-    Tone.Transport.bpm.value = 135;
+    Tone.Transport.bpm.value = 165;
 
     // Start loop
     Tone.start()
@@ -113,18 +115,28 @@ class App extends React.Component {
     let idx = 0;
 
     function repeat(time) {
+      // clear classes from prev step
+      let activeSquares = document.body.getElementsByClassName('curr-beat-played');
+      [...activeSquares].forEach(beat => beat.classList.remove('curr-beat-played'));
+
       // current step
       let step = idx % 16;
       // iterate over beat nodes
       for (let i = 0; i < rows.length; i++) {
         let note = noteMap[i];
         let row = rows[i];
+
+
+        // add styling for current step
         let square = row.querySelector(`.square:nth-child(${step + 1})`);
+        square.classList.add('curr-beat-played');
+
         // if node is Active
         if (square.classList.contains('active')) {
           // trigger attack
-          tones.triggerAttackRelease(note, '8n', time)
+          tones.triggerAttackRelease(note, '8n', time);
         }
+
       }
       // increment global index
       idx++;
